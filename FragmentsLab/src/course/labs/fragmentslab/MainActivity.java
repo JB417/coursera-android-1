@@ -9,9 +9,13 @@ public class MainActivity extends Activity implements
 		FriendsFragment.SelectionListener {
 
 	private static final String TAG = "Lab-Fragments";
+	
+	private static final String POSITION = "position";
 
 	private FriendsFragment mFriendsFragment;
 	private FeedFragment mFeedFragment;
+
+	private int selectedPosition = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,26 @@ public class MainActivity extends Activity implements
 
 		// Update Twitter feed display on FriendFragment
 		mFeedFragment.updateFeedDisplay(position);
+		selectedPosition = position;
 
+	}
+	
+	// EXTRAS
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(POSITION, selectedPosition);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onRestoreInstanceState(savedInstanceState);
+		int position = savedInstanceState.getInt(POSITION);
+		if (position >= 0){
+			onItemSelected(position);
+		}
 	}
 
 }
